@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     SpriteShowImage spriteShowImage;
 
+    [SerializeField]
+    Camera camera;
+
 
     float camAngle = 0;
     float armAngle = 0;
@@ -78,18 +81,40 @@ public class PlayerController : MonoBehaviour
         cameraMovement.MoveToWalking();
     }
 
+    public void FindObjectsInShot()
+    {
+        var objects = FindObjectsOfType<PhotoTarget>();
+        foreach(PhotoTarget pt in objects){
+            if (pt.WasInShot(camera)) {
+                pt.OnShotReaction();
+            }
+        }
+    }
+
     public void TakeSelfie()
     {
         if (!InSelfieMode || CameraBusy)
         {
-            Debug.LogWarning("camera was busy or not in mode");
             return;
         }
         // Start selfie animation.
         cameraMovement.TakeSelfie();
-        var image = cameraCapture.CaptureImage();
-        spriteShowImage.SetImage(image);
+        StartCoroutine(SelfieRoutine());
+    
         CameraBusy = true;
+    }
+
+    IEnumerator SelfieRoutine()
+    {
+        yield return new WaitForSeconds(1f);
+        var image = cameraCapture.CaptureImage();
+        yield return new WaitForEndOfFrame();
+        spriteShowImage.SetImage(image);
+
+        yield return new WaitForEndOfFrame();
+        FindObjectsInShot();
+
+        yield return new WaitForEndOfFrame();
     }
 
     IEnumerator ZeroArmRoutine()

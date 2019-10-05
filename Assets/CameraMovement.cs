@@ -28,6 +28,10 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     PlayerController playerController;
 
+
+    [SerializeField]
+    Animator flashAnimator;
+
     void Start()
     {
         InitialOffset = this.transform.localPosition;
@@ -55,6 +59,7 @@ public class CameraMovement : MonoBehaviour
 
     public void TakeSelfie()
     {
+        flashAnimator.SetTrigger("Flash");
         StartCoroutine(TakeSelfieRoutine());
     }
 
