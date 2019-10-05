@@ -18,8 +18,19 @@ public class PlayerController : MonoBehaviour
     GameObject ArmObject;
 
     [SerializeField]
+    GameObject ShoulderObject;
+
+    [SerializeField]
     AnimationCurve ArmCurve;
 
+
+    [SerializeField]
+    AnimationCurve TurnCurve;
+
+    [SerializeField]
+    GameObject BodyRoot;
+
+    float camAngle = 0;
     float armAngle = 0;
     // Start is called before the first frame update
     void Start()
@@ -41,6 +52,7 @@ public class PlayerController : MonoBehaviour
         }
         //Start enter selfie mode animation
         CameraBusy = true;
+        StartCoroutine(TurnToCameraRoutine());
         cameraMovement.MoveToSelfie();
     }
 
@@ -54,6 +66,7 @@ public class PlayerController : MonoBehaviour
         //Start exit selfie mode animation
         CameraBusy = true;
         StartCoroutine(ZeroArmRoutine());
+        StartCoroutine(TurnFromCameraRoutine());
         cameraMovement.MoveToWalking();
     }
 
@@ -79,7 +92,7 @@ public class PlayerController : MonoBehaviour
             
             t = ((Time.time - startTime) / totalTime);
 
-            armAngle *= ArmCurve.Evaluate(t);
+            camAngle *= ArmCurve.Evaluate(t);
 
             yield return new WaitForEndOfFrame();
         }
@@ -87,13 +100,56 @@ public class PlayerController : MonoBehaviour
         yield break;
     }
 
+    IEnumerator TurnToCameraRoutine()
+    {
+        float totalTime = 1f;
+        float startTime = Time.time;
+
+        float t = ((Time.time - startTime) / totalTime);
+        while (t < 1)
+        {
+
+            t = ((Time.time - startTime) / totalTime);
+            BodyRoot.transform.localRotation = Quaternion.Euler(0, TurnCurve.Evaluate(t) * -180, 0);
+
+            armAngle = Mathf.Lerp(0, -90, TurnCurve.Evaluate(t));
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield break;
+    }
+
+
+    IEnumerator TurnFromCameraRoutine()
+    {
+        float totalTime = 1f;
+        float startTime = Time.time;
+
+        float armStart = armAngle;
+
+        float t = ((Time.time - startTime) / totalTime);
+        while (t < 1)
+        {
+
+            t = ((Time.time - startTime) / totalTime);
+            BodyRoot.transform.localRotation = Quaternion.Euler(0, TurnCurve.Evaluate(1-t) * -180, 0);
+
+            armAngle = Mathf.Lerp(armStart , 0, TurnCurve.Evaluate(t));
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield break;
+    }
+
+
     public void HandleMovement(Vector3 Movement, Vector2 look)
     {
         if(CameraBusy)
         {
 
-            armAngle = Mathf.Clamp(armAngle, -60, 60);
-            ArmObject.transform.localRotation = Quaternion.Euler(new Vector3(armAngle, 0, 0));
+            camAngle = Mathf.Clamp(camAngle, -60, 60);
+            ArmObject.transform.localRotation = Quaternion.Euler(new Vector3(camAngle, 0, 0));
+            ShoulderObject.transform.localRotation = Quaternion.Euler(new Vector3(armAngle, 0, 0));
             return;
         }
         if (InSelfieMode)
@@ -102,10 +158,11 @@ public class PlayerController : MonoBehaviour
 
             this.transform.Rotate(new Vector3(0, look.x, 0), Space.World);
 
-
-            armAngle += look.y;
-            armAngle = Mathf.Clamp(armAngle, -60, 60);
-            ArmObject.transform.localRotation = Quaternion.Euler(new Vector3(armAngle, 0, 0));
+            armAngle = -camAngle - 90;
+            camAngle += look.y;
+            camAngle = Mathf.Clamp(camAngle, -60, 60);
+            ArmObject.transform.localRotation = Quaternion.Euler(new Vector3(camAngle, 0, 0));
+            ShoulderObject.transform.localRotation = Quaternion.Euler(new Vector3(-camAngle - 90, 0, 0));
             //this.transform.Rotate(Quaternion.FromToRotation(Vector3.forward, this.transform.forward) * new Vector3(look.y, 0, 0), Space.World);
 
             return;
