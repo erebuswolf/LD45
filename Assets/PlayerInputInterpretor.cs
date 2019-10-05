@@ -61,12 +61,14 @@ public class PlayerInputInterpretor : MonoBehaviour
         if (Input.GetAxis("EnterCameraMode") != 0)
         {
             playerController.EnterSelfieMode();
-        }
 
+            playerController.TakeSelfie();
+        }
+        /*
         if (Input.GetAxis("TakeSelfie") != 0)
         {
             playerController.TakeSelfie();
-        }
+        }*/
 
         if (Input.GetAxis("ExitCameraMode") != 0)
         {

@@ -30,6 +30,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     GameObject BodyRoot;
 
+
+    [SerializeField]
+    CameraCapture cameraCapture;
+
+    [SerializeField]
+    SpriteShowImage spriteShowImage;
+
+
     float camAngle = 0;
     float armAngle = 0;
     // Start is called before the first frame update
@@ -74,10 +82,13 @@ public class PlayerController : MonoBehaviour
     {
         if (!InSelfieMode || CameraBusy)
         {
+            Debug.LogWarning("camera was busy or not in mode");
             return;
         }
         // Start selfie animation.
         cameraMovement.TakeSelfie();
+        var image = cameraCapture.CaptureImage();
+        spriteShowImage.SetImage(image);
         CameraBusy = true;
     }
 
