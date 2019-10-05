@@ -51,6 +51,33 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(MoveToInitRoutine());
     }
 
+
+
+    public void TakeSelfie()
+    {
+        StartCoroutine(TakeSelfieRoutine());
+    }
+
+    IEnumerator TakeSelfieRoutine()
+    {
+
+        float totalTime = 1f;
+        float startTime = Time.time;
+
+        float t = ((Time.time - startTime) / totalTime);
+        while (t < 1)
+        {
+            t = ((Time.time - startTime) / totalTime);
+
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        playerController.AnimationFinished(true);
+        yield break;
+    }
+
+
     IEnumerator MoveToSelfieRoutine()
     {
         float totalTime = 1f;
