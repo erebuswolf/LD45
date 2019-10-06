@@ -530,5 +530,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Logo: {fileID: 2011236457}
   Overlay: {fileID: 274639532}
-  NextScene: GameScene
+  NextScene: Instructions
   ShowTime: 1
