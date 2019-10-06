@@ -46,6 +46,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     CommentController commentController;
 
+    [SerializeField]
+    Animator PlayerWalk;
+
+
     int followerCount=0;
 
 
@@ -54,12 +58,12 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+
         controller.SimpleMove(new Vector3(0, -1, 0));
     }
 
@@ -197,6 +201,7 @@ public class PlayerController : MonoBehaviour
         if(CameraBusy)
         {
 
+            PlayerWalk.SetTrigger("StopWalk");
             camAngle = Mathf.Clamp(camAngle, -60, 60);
             ArmObject.transform.localRotation = Quaternion.Euler(new Vector3(camAngle, 0, 0));
             ShoulderObject.transform.localRotation = Quaternion.Euler(new Vector3(armAngle, 0, 0));
@@ -204,6 +209,7 @@ public class PlayerController : MonoBehaviour
         }
         if (InSelfieMode)
         {
+            PlayerWalk.SetTrigger("StopWalk");
             // From camera look controls.
 
             this.transform.Rotate(new Vector3(0, look.x, 0), Space.World);
@@ -225,7 +231,14 @@ public class PlayerController : MonoBehaviour
         vel = Quaternion.FromToRotation(Vector3.forward, this.transform.forward) * vel;
 
         this.transform.Rotate(new Vector3(0, look.x, 0));
-
+        if (Movement.sqrMagnitude > 0)
+        {
+            PlayerWalk.SetTrigger("Walk");
+        }
+        else
+        {
+            PlayerWalk.SetTrigger("StopWalk");
+        }
         controller.Move(Movement);
     }
 
