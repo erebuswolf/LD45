@@ -11,13 +11,24 @@ public class PhotoTarget : MonoBehaviour
     float minDistance;
 
 
+    [SerializeField]
+    bool AlreadyPhotographed;
+
+    [SerializeField]
+    int followersGained;
+
+    [SerializeField]
+    List<string> Comments;
+
+    [SerializeField]
+    List<PhotoTarget> TargetsToActivate;
+
     public bool WasInShot(Camera camera)
     {
 
-        var planes = GeometryUtility.CalculateFrustumPlanes(camera);
         RaycastHit hitinfo = new RaycastHit();
         Debug.DrawRay(camera.transform.position, this.transform.position - camera.transform.position);
-        if (Physics.Raycast(camera.transform.position, this.transform.position - camera.transform.position,  out hitinfo, Mathf.Infinity, LayerMask.GetMask("Default")))
+        if (Physics.Raycast(camera.transform.position, this.transform.position - camera.transform.position, out hitinfo, Mathf.Infinity, LayerMask.GetMask("Default")))
         {
             if (hitinfo.collider.gameObject == this.gameObject)
             {
@@ -27,10 +38,15 @@ public class PhotoTarget : MonoBehaviour
                 return false;
             }
         }
-        if (minDistance > 0 && (this.transform.position - camera.transform.position).sqrMagnitude > minDistance*minDistance)
+        if (minDistance > 0 && (this.transform.position - camera.transform.position).sqrMagnitude > minDistance * minDistance)
         {
-
             Debug.LogWarningFormat("outside min distance!!! {0}  {1}", minDistance, (this.transform.position - camera.transform.position).magnitude);
+            return false;
+        }
+
+        var planes = GeometryUtility.CalculateFrustumPlanes(camera);
+
+        if (!GeometryUtility.TestPlanesAABB(planes, myCollider.bounds)) {
             return false;
         }
         return true;
