@@ -19,7 +19,6 @@ public class SpriteShowImage : MonoBehaviour
 
     public void SetImage(Texture2D Image)
     {
-        Debug.LogWarning("shit happened");
         spriteRenderer.sprite = Sprite.Create(Image, new Rect(0, 0, Image.width, Image.height), new Vector2());
     }
 }

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: fa469cdd205a33e459ff538c47439f6f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 22113151}
   m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCollider: {fileID: 10424984}
-  minDistance: 10
+  minDistance: 30
 --- !u!1 &22113150
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 30006583}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.386, z: 0.202}
-  m_LocalScale: {x: 0.19031, y: 0.034211498, z: -0.3379465}
+  m_LocalScale: {x: 0.19031, y: 0.034211498, z: 0.3379465}
   m_Children: []
   m_Father: {fileID: 8227461065665752245}
   m_RootOrder: 0
@@ -623,6 +623,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   playerController: {fileID: 1636364007}
   flashAnimator: {fileID: 860159530}
+  photoFadeAnimator: {fileID: 989026004}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -632,7 +633,7 @@ Camera:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -888,6 +889,7 @@ GameObject:
   - component: {fileID: 860159528}
   - component: {fileID: 860159529}
   - component: {fileID: 860159530}
+  - component: {fileID: 860159531}
   m_Layer: 5
   m_Name: FlashSprite
   m_TagString: Untagged
@@ -982,6 +984,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &860159531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860159527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767ef29957f2d534e972486f6874cee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camMove: {fileID: 519420030}
 --- !u!1 &989026000
 GameObject:
   m_ObjectHideFlags: 0
@@ -993,6 +1008,7 @@ GameObject:
   - component: {fileID: 989026001}
   - component: {fileID: 989026003}
   - component: {fileID: 989026002}
+  - component: {fileID: 989026004}
   m_Layer: 5
   m_Name: Picture Sprite
   m_TagString: Untagged
@@ -1070,7 +1086,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1080,6 +1096,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &989026004
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989026000}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 31670a42e41ae1e47b9a1248ae0e6954, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1038737398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,7 +1556,7 @@ MonoBehaviour:
   BodyRoot: {fileID: 7060664384739024081}
   cameraCapture: {fileID: 1698983450}
   spriteShowImage: {fileID: 989026002}
-  camera: {fileID: 519420031}
+  myCamera: {fileID: 1698983449}
 --- !u!4 &1636364010
 Transform:
   m_ObjectHideFlags: 0
@@ -1597,7 +1632,7 @@ Camera:
   m_GameObject: {fileID: 1698983446}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2

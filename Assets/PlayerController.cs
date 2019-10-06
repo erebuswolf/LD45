@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     SpriteShowImage spriteShowImage;
 
     [SerializeField]
-    Camera camera;
+    Camera myCamera;
 
 
     float camAngle = 0;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         var objects = FindObjectsOfType<PhotoTarget>();
         foreach(PhotoTarget pt in objects){
-            if (pt.WasInShot(camera)) {
+            if (pt.WasInShot(myCamera)) {
                 pt.OnShotReaction();
             }
         }
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SelfieRoutine()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         var image = cameraCapture.CaptureImage();
         yield return new WaitForEndOfFrame();
         spriteShowImage.SetImage(image);

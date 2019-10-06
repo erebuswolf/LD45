@@ -32,6 +32,11 @@ public class CameraMovement : MonoBehaviour
     [SerializeField]
     Animator flashAnimator;
 
+
+    [SerializeField]
+    Animator photoFadeAnimator;
+
+
     void Start()
     {
         InitialOffset = this.transform.localPosition;
@@ -63,21 +68,23 @@ public class CameraMovement : MonoBehaviour
         StartCoroutine(TakeSelfieRoutine());
     }
 
+    public void SetPhotoVisible()
+    {
+        photoFadeAnimator.SetTrigger("ShowImage");
+    }
+
     IEnumerator TakeSelfieRoutine()
     {
-
-        float totalTime = 1f;
+        float totalTime = 3f;
         float startTime = Time.time;
 
         float t = ((Time.time - startTime) / totalTime);
         while (t < 1)
         {
             t = ((Time.time - startTime) / totalTime);
-
-
             yield return new WaitForEndOfFrame();
         }
-
+        photoFadeAnimator.SetTrigger("FadeOut");
         playerController.AnimationFinished(true);
         yield break;
     }

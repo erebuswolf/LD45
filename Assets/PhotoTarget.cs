@@ -10,14 +10,9 @@ public class PhotoTarget : MonoBehaviour
     [SerializeField]
     float minDistance;
 
-    bool visible = false;
 
     public bool WasInShot(Camera camera)
     {
-        if (!visible)
-        {
-            return false;
-        }
 
         var planes = GeometryUtility.CalculateFrustumPlanes(camera);
         RaycastHit hitinfo = new RaycastHit();
@@ -34,20 +29,13 @@ public class PhotoTarget : MonoBehaviour
         }
         if (minDistance > 0 && (this.transform.position - camera.transform.position).sqrMagnitude > minDistance*minDistance)
         {
+
+            Debug.LogWarningFormat("outside min distance!!! {0}  {1}", minDistance, (this.transform.position - camera.transform.position).magnitude);
             return false;
         }
         return true;
     }
 
-    private void OnBecameInvisible()
-    {
-        visible = false;
-    }
-    private void OnBecameVisible()
-    {
-
-        visible = true;
-    }
 
     public void OnShotReaction()
     {
