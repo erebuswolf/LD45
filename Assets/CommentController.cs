@@ -76,6 +76,7 @@ public class CommentController : MonoBehaviour
         photoFadeAnimator.SetTrigger("FadeOut");
 
         playerController.AnimationFinished(true);
+        playerController.ExitSelfieMode();
         yield break;
     }
     IEnumerator CommentRoutine(List<string> comments, List<AudioClip> audio, int currentFollowers, int NewFollowers)
@@ -106,6 +107,7 @@ public class CommentController : MonoBehaviour
         photoFadeAnimator.SetTrigger("FadeOut");
 
         playerController.AnimationFinished(true);
+        playerController.ExitSelfieMode();
         yield break;
     }
 
