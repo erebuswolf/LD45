@@ -89,7 +89,6 @@ public class CommentController : MonoBehaviour
     }
     IEnumerator CommentRoutine(List<string> comments, List<AudioClip> audio, int currentFollowers, int NewFollowers)
     {
-        Debug.LogWarning("starting routine");
         yield return new WaitForSeconds(1);
         for(int i = 0; i < comments.Count; i++)
         {
@@ -100,7 +99,7 @@ public class CommentController : MonoBehaviour
             yield return new WaitForSeconds(audio[i].length +.5f);
         }
 
-        int followerstep = NewFollowers - currentFollowers / 60;
+        int followerstep = (NewFollowers - currentFollowers) / 60;
         if (followerstep == 0)
         {
             followerstep = 1;

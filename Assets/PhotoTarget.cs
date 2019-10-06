@@ -38,13 +38,11 @@ public class PhotoTarget : MonoBehaviour
             {
             } else
             {
-                Debug.LogWarning("shot blocked!!!");
                 return false;
             }
         }
         if (minDistance > 0 && (this.transform.position - camera.transform.position).sqrMagnitude > minDistance * minDistance)
         {
-            Debug.LogWarningFormat("outside min distance!!! {0}  {1}", minDistance, (this.transform.position - camera.transform.position).magnitude);
             return false;
         }
 
@@ -64,8 +62,7 @@ public class PhotoTarget : MonoBehaviour
             commentController.PlayDuplicateImageReaction();
             return 0;
         }
-        Debug.LogWarning("I was in the shot!!!");
-        commentController.ShowComments(Comments, CommentReads, followers, followersGained);
+        commentController.ShowComments(Comments, CommentReads, followers, followersGained + followers);
 
         AlreadyPhotographed = true;
         return followersGained;

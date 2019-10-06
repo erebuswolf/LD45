@@ -39,6 +39,8 @@ public class BaseMovement : MonoBehaviour
     {
         RandomGoal = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * WanderRange + startLocation;
         lastGoalTime = Time.time;
+        
+        this.transform.rotation= Quaternion.LookRotation(new Vector3((RandomGoal- this.transform.position).x, 0, (RandomGoal - this.transform.position).z));
     }
 
     // Update is called once per frame
