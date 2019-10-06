@@ -35,7 +35,6 @@ public class BouncerTalking : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.LogWarningFormat("trigger entered {0}", other.gameObject);
         var playerController = other.GetComponent<PlayerController>();
         if (playerController != null)
         {

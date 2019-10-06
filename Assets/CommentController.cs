@@ -72,7 +72,6 @@ public class CommentController : MonoBehaviour
 
     IEnumerator BadCommentRoutine(string comments, AudioClip audio)
     {
-        Debug.LogWarning("starting routine");
         yield return new WaitForSeconds(1);
         textFields[0].text = comments;
         textFields[0].gameObject.SetActive(true);

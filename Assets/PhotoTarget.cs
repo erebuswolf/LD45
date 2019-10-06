@@ -31,7 +31,6 @@ public class PhotoTarget : MonoBehaviour
     {
 
         RaycastHit hitinfo = new RaycastHit();
-        Debug.DrawRay(camera.transform.position, this.transform.position - camera.transform.position);
         if (Physics.Raycast(camera.transform.position, this.transform.position - camera.transform.position, out hitinfo, Mathf.Infinity, LayerMask.GetMask("Default")))
         {
             if (hitinfo.collider.gameObject == this.gameObject)
