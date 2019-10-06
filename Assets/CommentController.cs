@@ -51,6 +51,14 @@ public class CommentController : MonoBehaviour
         StartCoroutine(CommentRoutine(comments, audio, currentFollowers, NewFollowers));
     }
 
+
+    public void PlayEmptyImageReaction()
+    {
+        int randSelect = Random.Range(0, noSubject.Count);
+
+        StartCoroutine(BadCommentRoutine(noSubject[randSelect], noSubjectAudio[randSelect]));
+    }
+
     public void PlayDuplicateImageReaction()
     {
         int randSelect = Random.Range(0, duplicateSubject.Count);
@@ -92,14 +100,22 @@ public class CommentController : MonoBehaviour
             yield return new WaitForSeconds(audio[i].length +.5f);
         }
 
-        while( currentFollowers < NewFollowers)
+        int followerstep = NewFollowers - currentFollowers / 60;
+        if (followerstep == 0)
         {
-            currentFollowers++;
+            followerstep = 1;
+        }
+        while ( currentFollowers < NewFollowers)
+        {
+            currentFollowers+= followerstep;
             followersText.text = currentFollowers + "";
             yield return new WaitForEndOfFrame();
         }
+        currentFollowers = NewFollowers;
 
-        foreach(Text t in textFields)
+        followersText.text = currentFollowers + "";
+
+        foreach (Text t in textFields)
         {
             t.gameObject.SetActive(false);
         }

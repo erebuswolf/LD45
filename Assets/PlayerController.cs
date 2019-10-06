@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     AudioSource cameraClick;
 
+    [SerializeField]
+    CommentController commentController;
+
     int followerCount=0;
 
 
@@ -89,11 +92,17 @@ public class PlayerController : MonoBehaviour
     public void FindObjectsInShot()
     {
         var objects = FindObjectsOfType<PhotoTarget>();
+        bool foundObject = false;
         foreach(PhotoTarget pt in objects){
             if (pt.WasInShot(myCamera)) {
                 followerCount += pt.OnShotReaction(followerCount);
+                foundObject = true;
                 break;
             }
+        }
+        if (!foundObject)
+        {
+            commentController.PlayEmptyImageReaction();
         }
     }
 
