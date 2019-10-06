@@ -10,7 +10,6 @@ public class PhotoTarget : MonoBehaviour
     [SerializeField]
     float minDistance;
 
-
     [SerializeField]
     bool AlreadyPhotographed;
 
@@ -22,6 +21,11 @@ public class PhotoTarget : MonoBehaviour
 
     [SerializeField]
     List<PhotoTarget> TargetsToActivate;
+
+    [SerializeField]
+    List<AudioClip> CommentReads;
+
+    CommentController commentController;
 
     public bool WasInShot(Camera camera)
     {
@@ -53,15 +57,24 @@ public class PhotoTarget : MonoBehaviour
     }
 
 
-    public void OnShotReaction()
+    public int OnShotReaction(int followers)
     {
+        if (AlreadyPhotographed)
+        {
+            commentController.PlayDuplicateImageReaction();
+            return 0;
+        }
         Debug.LogWarning("I was in the shot!!!");
+        commentController.ShowComments(Comments, CommentReads, followers, followersGained);
+
+        AlreadyPhotographed = true;
+        return followersGained;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        commentController = FindObjectOfType<CommentController>();
     }
 
     // Update is called once per frame

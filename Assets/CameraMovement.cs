@@ -65,28 +65,11 @@ public class CameraMovement : MonoBehaviour
     public void TakeSelfie()
     {
         flashAnimator.SetTrigger("Flash");
-        StartCoroutine(TakeSelfieRoutine());
     }
 
     public void SetPhotoVisible()
     {
         photoFadeAnimator.SetTrigger("ShowImage");
-    }
-
-    IEnumerator TakeSelfieRoutine()
-    {
-        float totalTime = 3f;
-        float startTime = Time.time;
-
-        float t = ((Time.time - startTime) / totalTime);
-        while (t < 1)
-        {
-            t = ((Time.time - startTime) / totalTime);
-            yield return new WaitForEndOfFrame();
-        }
-        photoFadeAnimator.SetTrigger("FadeOut");
-        playerController.AnimationFinished(true);
-        yield break;
     }
 
 

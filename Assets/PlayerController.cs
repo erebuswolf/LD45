@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     Camera myCamera;
 
+    [SerializeField]
+    AudioSource cameraClick;
+
+    int followerCount=0;
+
 
     float camAngle = 0;
     float armAngle = 0;
@@ -52,7 +57,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        controller.SimpleMove(new Vector3(0, -1, 0));
     }
 
     public void EnterSelfieMode()
@@ -86,7 +91,8 @@ public class PlayerController : MonoBehaviour
         var objects = FindObjectsOfType<PhotoTarget>();
         foreach(PhotoTarget pt in objects){
             if (pt.WasInShot(myCamera)) {
-                pt.OnShotReaction();
+                followerCount += pt.OnShotReaction(followerCount);
+                break;
             }
         }
     }
@@ -97,6 +103,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+        cameraClick.Play();
         // Start selfie animation.
         cameraMovement.TakeSelfie();
         StartCoroutine(SelfieRoutine());
@@ -151,10 +158,8 @@ public class PlayerController : MonoBehaviour
             armAngle = Mathf.Lerp(0, -90, TurnCurve.Evaluate(t));
             yield return new WaitForEndOfFrame();
         }
-
         yield break;
     }
-
 
     IEnumerator TurnFromCameraRoutine()
     {
