@@ -25,6 +25,9 @@ public class BaseMovement : MonoBehaviour
     [SerializeField]
     float ChangeGoalTime;
 
+
+    float randChangeGoalTime;
+
     [SerializeField]
     float goalEps;
 
@@ -39,7 +42,8 @@ public class BaseMovement : MonoBehaviour
     {
         RandomGoal = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)) * WanderRange + startLocation;
         lastGoalTime = Time.time;
-        
+        randChangeGoalTime = ChangeGoalTime + Random.Range(-3f, 3f);
+
         this.transform.rotation= Quaternion.LookRotation(new Vector3((RandomGoal- this.transform.position).x, 0, (RandomGoal - this.transform.position).z));
     }
 
@@ -55,7 +59,7 @@ public class BaseMovement : MonoBehaviour
     {
 
         // Pick a random goal location
-        if (lastGoalTime + ChangeGoalTime < Time.time || (this.transform.position - RandomGoal).sqrMagnitude < goalEps*goalEps)
+        if (lastGoalTime + randChangeGoalTime < Time.time || (this.transform.position - RandomGoal).sqrMagnitude < goalEps*goalEps)
         {
             PickGoal();
         }

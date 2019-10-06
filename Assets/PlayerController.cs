@@ -67,6 +67,11 @@ public class PlayerController : MonoBehaviour
         controller.SimpleMove(new Vector3(0, -1, 0));
     }
 
+    public int GetFollowers()
+    {
+        return followerCount;
+    }
+
     public void EnterSelfieMode()
     {
         if(InSelfieMode || CameraBusy)
