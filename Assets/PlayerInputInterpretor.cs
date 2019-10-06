@@ -40,6 +40,10 @@ public class PlayerInputInterpretor : MonoBehaviour
         {
             QuitGame();
         }
+        if (playerController == null)
+        {
+            return;
+        }
 
         Vector3 vel = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 

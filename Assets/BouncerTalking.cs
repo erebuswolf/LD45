@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BouncerTalking : MonoBehaviour
 {
@@ -40,18 +41,27 @@ public class BouncerTalking : MonoBehaviour
         {
             if (!soundPlayer.isPlaying)
             {
-
                 if (playerController.GetFollowers() > victoryMin)
                 {
                     soundPlayer.clip = WinClip;
                     soundPlayer.Play();
+                    StartCoroutine(WinRoutine());
                 }else {
                     soundPlayer.clip = rejectedClips[Random.Range(0, rejectedClips.Count)];
                     soundPlayer.Play();
                 }
-
             }
-
         }
     }
+
+    IEnumerator WinRoutine()
+    {
+        while (soundPlayer.isPlaying)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+
+        SceneManager.LoadScene("WinScene");
+    }
+
 }
