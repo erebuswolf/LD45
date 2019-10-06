@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
     Animator PlayerWalk;
 
 
+    [SerializeField]
+    AudioSource WalkSound;
+
     int followerCount=0;
 
 
@@ -114,7 +117,6 @@ public class PlayerController : MonoBehaviour
             commentController.PlayEmptyImageReaction();
         }
     }
-
     public void TakeSelfie()
     {
         if (!InSelfieMode || CameraBusy)
@@ -239,10 +241,15 @@ public class PlayerController : MonoBehaviour
         if (Movement.sqrMagnitude > 0)
         {
             PlayerWalk.SetTrigger("Walk");
+          /*  if (!WalkSound.isPlaying)
+            {
+            //    WalkSound.Play();
+            }*/
         }
         else
         {
             PlayerWalk.SetTrigger("StopWalk");
+          //  WalkSound.Stop();
         }
         controller.Move(Movement);
     }

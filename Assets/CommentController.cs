@@ -34,6 +34,10 @@ public class CommentController : MonoBehaviour
 
     [SerializeField]
     PlayerController playerController;
+
+
+    [SerializeField]
+    AudioClip FollowerIncrease;
     // Start is called before the first frame update 
     void Start()
     {
@@ -104,6 +108,8 @@ public class CommentController : MonoBehaviour
         {
             followerstep = 1;
         }
+        AudioPlayer.clip = FollowerIncrease;
+        AudioPlayer.Play();
         while ( currentFollowers < NewFollowers)
         {
             currentFollowers+= followerstep;
